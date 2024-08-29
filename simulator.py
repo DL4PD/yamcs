@@ -14,12 +14,13 @@ def send_tm(simulator):
 
     with io.open('testdata.ccsds', 'rb') as f:
         simulator.tm_counter = 1
-        header = bytearray(6)
-        while f.readinto(header) == 6:
-            (len,) = unpack_from('>H', header, 4)
+        header = bytearray(8)
+        while f.readinto(header) == 8:
+            (len,) = unpack_from('>H', header, 6)
 
-            packet = bytearray(len + 7)
-            f.seek(-6, io.SEEK_CUR)
+            simulator.tm_len = len
+            packet = bytearray(len + 14)
+            f.seek(-8, io.SEEK_CUR)
             f.readinto(packet)
 
             tm_socket.sendto(packet, ('127.0.0.1', 10015))
@@ -41,6 +42,7 @@ class Simulator():
 
     def __init__(self):
         self.tm_counter = 0
+        self.tm_len = 0
         self.tc_counter = 0
         self.tm_thread = None
         self.tc_thread = None
@@ -58,8 +60,8 @@ class Simulator():
         cmdhex = None
         if self.last_tc:
             cmdhex = binascii.hexlify(self.last_tc).decode('ascii')
-        return 'Sent: {} packets. Received: {} commands. Last command: {}'.format(
-                         self.tm_counter, self.tc_counter, cmdhex)
+        return 'Sent: {} packets size {}. Received: {} commands. Last command: {}'.format(
+                         self.tm_counter, self.tm_len, self.tc_counter, cmdhex)
 
 
 if __name__ == '__main__':
