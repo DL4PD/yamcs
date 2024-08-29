@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SpaceSystem name="ERMINAZ-1" xmlns="http://www.omg.org/spec/XTCE/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/XTCE/ https://www.omg.org/spec/XTCE/20180204/SpaceSystem.xsd">
+	<TelemetryMetaData>
+		<ParameterTypeSet>
+			<AggregateParameterType name="CCSDS_OSDLP_Transfer_Frame_Type">
+				<!-- CCSDS Transfer Frame Header -->
+				<MemberList>
+   					<Member name="CCSDS_OSDLP_TF_Primary_Header" typeRef="CCSDS_OSDLP_TF_Primary_Header_Type" />
+				</MemberList>
+   			</AggregateParameterType>
+			<AggregateParameterType name="CCSDS_OSDLP_TF_Primary_Header_Type">
+				<!-- CCSDS Transfer Frame Primary Header -->
+				<MemberList>
+   					<Member name="TF_Version_Number" typeRef="CCSDS_OSDLP_TF_Version_Number_Type" />
+   					<Member name="Spacecraft_ID" typeRef="CCSDS_OSDLP_Spacecraft_ID_Type" />
+   					<Member name="Virtual_Channel_ID" typeRef="CCSDS_OSDLP_Virtual_Channel_ID_Type" />
+   					<Member name="OCF_Flag" typeRef="CCSDS_OSDLP_OCF_Flag_Type" />
+                    <Member name="Master_Channel_Frame_Count" typeRef="CCSDS_OSDLP_Master_Channel_Frame_Count_Type" />
+                    <Member name="Virtual_Channel_Frame_Count" typeRef="CCSDS_OSDLP_Virtual_Channel_Frame_Count_Type" />
+   					<Member name="TF_SecHdr_Flag" typeRef="CCSDS_OSDLP_TF_SecHdr_Flag_Type" />
+   					<Member name="Synch_Flag" typeRef="CCSDS_OSDLP_Synch_Flag_Type" />
+   					<Member name="Packet_Order_Flag" typeRef="CCSDS_OSDLP_Packet_Order_Flag_Type" />
+   					<Member name="Segment_Length_ID" typeRef="CCSDS_OSDLP_Segment_Length_ID_Type" />
+   					<Member name="First_Header_Pointer" typeRef="CCSDS_OSDLP_First_Header_Pointer_Type" />                    
+				</MemberList>
+   			</AggregateParameterType>
+			<IntegerParameterType name="CCSDS_OSDLP_TF_Version_Number_Type" signed="false" initialValue="0">
+				<IntegerDataEncoding sizeInBits="2" />
+			</IntegerParameterType>
+			<IntegerParameterType name="CCSDS_OSDLP_Spacecraft_ID_Type" signed="false" initialValue="0">
+				<IntegerDataEncoding sizeInBits="10" />
+			</IntegerParameterType>
+			<IntegerParameterType name="CCSDS_OSDLP_Virtual_Channel_ID_Type" signed="false" initialValue="0">
+				<IntegerDataEncoding sizeInBits="3" />
+			</IntegerParameterType>
+			<BooleanParameterType name="CCSDS_OSDLP_OCF_Flag_Type" zeroStringValue="NotPresent" oneStringValue="Present">
+				<UnitSet />
+				<IntegerDataEncoding sizeInBits="1" />
+			</BooleanParameterType>
+			<BooleanParameterType name="CCSDS_OSDLP_TF_SecHdr_Flag_Type" zeroStringValue="NotPresent" oneStringValue="Present">
+				<UnitSet />
+				<IntegerDataEncoding sizeInBits="1" />
+			</BooleanParameterType>
+			<BooleanParameterType name="CCSDS_OSDLP_Synch_Flag_Type" zeroStringValue="NotPresent" oneStringValue="Present">
+				<UnitSet />
+				<IntegerDataEncoding sizeInBits="1" />
+			</BooleanParameterType>
+			<BooleanParameterType name="CCSDS_OSDLP_Packet_Order_Flag_Type" zeroStringValue="NotPresent" oneStringValue="Present">
+				<UnitSet />
+				<IntegerDataEncoding sizeInBits="1" />
+			</BooleanParameterType>
+			<IntegerParameterType name="CCSDS_OSDLP_Segment_Length_ID_Type" signed="false" initialValue="0">
+				<IntegerDataEncoding sizeInBits="2" />
+			</IntegerParameterType>
+			<IntegerParameterType name="CCSDS_OSDLP_First_Header_Pointer_Type" signed="false" initialValue="0">
+				<IntegerDataEncoding sizeInBits="11" />
+			</IntegerParameterType>
+			<IntegerParameterType name="CCSDS_OSDLP_Master_Channel_Frame_Count_Type" signed="false" initialValue="0">
+				<UnitSet>
+					<Unit description="Size">Frames</Unit>
+				</UnitSet>
+				<IntegerDataEncoding sizeInBits="8" />
+			</IntegerParameterType>
+			<IntegerParameterType name="CCSDS_OSDLP_Virtual_Channel_Frame_Count_Type" signed="false" initialValue="0">
+				<UnitSet>
+					<Unit description="Size">Frames</Unit>
+				</UnitSet>
+				<IntegerDataEncoding sizeInBits="8" />
+			</IntegerParameterType>
+			<EnumeratedParameterType name="QUBIK_Packet_Type">
+				<UnitSet />
+				<IntegerDataEncoding sizeInBits="3" />
+				<EnumerationList>
+					<Enumeration value="0" label="Management" />
+					<Enumeration value="1" label="Regular_TM" />
+					<Enumeration value="2" label="Requested_TM" />
+					<Enumeration value="3" label="Digipeater" />
+					<Enumeration value="4" label="SSDV" />
+					<Enumeration value="5" label="IMU" />
+				</EnumerationList>
+			</EnumeratedParameterType>
+
+			<!-- For the QUBIK and ERMINAZ mission there a no CCSDS Space Packets used -->
+			<AggregateParameterType name="QUBIK_Packet_ID_Type">
+    			<!-- Split packet types by virtual channel ID -->
+ 				<MemberList>
+					<Member name="SCID" typeRef="CCSDS_OSDLP_Spacecraft_ID_Type" />
+					<Member name="Type" typeRef="QUBIK_Packet_Type" />
+				</MemberList>
+  			</AggregateParameterType>
+			<IntegerParameterType name="QUBIK_Packet_Length_Type" signed="false" initialValue="0">
+				<UnitSet>
+					<Unit description="Size">Octets</Unit>
+				</UnitSet>
+				<IntegerDataEncoding sizeInBits="16" />
+			</IntegerParameterType>
+            <!-- standard int types -->
+			<IntegerParameterType name="uint8_t" signed="false">
+				<UnitSet />
+				<IntegerDataEncoding encoding="unsigned" sizeInBits="8" />
+			</IntegerParameterType>
+			<IntegerParameterType name="int8_t" signed="true">
+				<UnitSet />
+				<IntegerDataEncoding encoding="twoscompliment" sizeInBits="8" />
+			</IntegerParameterType>
+			<IntegerParameterType name="uint16_t" signed="false">
+				<UnitSet />
+				<IntegerDataEncoding encoding="unsigned" sizeInBits="16" />
+			</IntegerParameterType>
+			<IntegerParameterType name="int16_t" signed="true">
+				<UnitSet />
+				<IntegerDataEncoding encoding="twoscompliment" sizeInBits="16" />
+			</IntegerParameterType>
+			<IntegerParameterType name="uint32_t" signed="false">
+				<UnitSet />
+				<IntegerDataEncoding encoding="unsigned" sizeInBits="32" />
+			</IntegerParameterType>
+			<IntegerParameterType name="int32_t" signed="true">
+				<UnitSet />
+				<IntegerDataEncoding encoding="twoscompliment" sizeInBits="32" />
+			</IntegerParameterType>
+			<IntegerParameterType name="uint64_t" signed="false">
+				<UnitSet />
+				<IntegerDataEncoding encoding="unsigned" sizeInBits="64" />
+			</IntegerParameterType>
+			<IntegerParameterType name="int64_t" signed="true">
+				<UnitSet />
+				<IntegerDataEncoding encoding="twoscompliment" sizeInBits="64" />
+			</IntegerParameterType>
+			<FloatParameterType name="float_t">
+				<UnitSet />
+				<FloatDataEncoding sizeInBits="32" />
+			</FloatParameterType>
+			<BooleanParameterType name="bool_t">
+				<UnitSet />
+				<IntegerDataEncoding sizeInBits="8" />
+			</BooleanParameterType>
+			<AggregateParameterType name="vec3_t">
+				<MemberList>
+					<Member name="x" typeRef="float_t" />
+					<Member name="y" typeRef="float_t" />
+					<Member name="z" typeRef="float_t" />
+				</MemberList>
+			</AggregateParameterType>
+		</ParameterTypeSet>
+		<ParameterSet>
+            <!-- CCSDS TF Header -->
+    		<Parameter name="CCSDS_OSDLP_Transfer_Frame" parameterTypeRef="CCSDS_OSDLP_Transfer_Frame_Type" />
+            <!-- QUBIK Packet -->
+            <Parameter name="QUBIK_Packet_ID" parameterTypeRef="QUBIK_Packet_ID_Type" />
+			<Parameter name="QUBIK_Packet_Length" parameterTypeRef="QUBIK_Packet_Length_Type" />
+			<Parameter name="power->current" parameterTypeRef="int16_t" />
+			<Parameter name="power->voltage" parameterTypeRef="uint16_t" />
+			<Parameter name="power->temperature_die" parameterTypeRef="int8_t" />
+			<Parameter name="power->temperature" parameterTypeRef="int8_t" />
+			<Parameter name="power->current_min" parameterTypeRef="int16_t" />
+			<Parameter name="power->voltage_min" parameterTypeRef="uint16_t" />
+			<Parameter name="power->temperature_min" parameterTypeRef="int8_t" />
+			<Parameter name="power->current_max" parameterTypeRef="int16_t" />
+			<Parameter name="power->voltage_max" parameterTypeRef="uint16_t" />
+			<Parameter name="power->temperature_max" parameterTypeRef="int8_t" />
+			<Parameter name="power->current_avg" parameterTypeRef="int16_t" />
+			<Parameter name="power->voltage_avg" parameterTypeRef="uint16_t" />
+			<Parameter name="power->temperature_avg" parameterTypeRef="int8_t" />
+			<Parameter name="power->tte" parameterTypeRef="uint16_t" />
+			<Parameter name="power->repcap" parameterTypeRef="int16_t" />
+			<Parameter name="power->fullrepcap" parameterTypeRef="int16_t" />
+			<Parameter name="power->soc" parameterTypeRef="int8_t" />
+			<Parameter name="ant->test_voltage" parameterTypeRef="int16_t" />
+			<Parameter name="ant->test_current" parameterTypeRef="int16_t" />
+			<Parameter name="ant->test_result" parameterTypeRef="uint8_t" />
+			<Parameter name="ant->deploy_avg_voltage" parameterTypeRef="int16_t" />
+			<Parameter name="ant->deploy_avg_current" parameterTypeRef="int16_t" />
+			<Parameter name="ant->deploy_time" parameterTypeRef="uint8_t" />
+			<Parameter name="ant->deploy_status" parameterTypeRef="uint8_t" />
+			<Parameter name="ant->deploy_retry_count" parameterTypeRef="uint8_t" />
+			<Parameter name="uptime" parameterTypeRef="uint32_t" />
+			<Parameter name="power->temp_mcu" parameterTypeRef="int8_t" />
+			<Parameter name="power->rtc_vbat" parameterTypeRef="int16_t" />
+			<Parameter name="settings->first_deploy" parameterTypeRef="uint8_t" />
+			<Parameter name="settings->ant_first_deploy" parameterTypeRef="uint8_t" />
+			<Parameter name="ror" parameterTypeRef="uint8_t" />
+			<Parameter name="radio->rx_frames_invalid" parameterTypeRef="uint16_t" />
+			<Parameter name="settings->low_power_counter" parameterTypeRef="uint16_t" />
+			<Parameter name="settings->iwdg_counter" parameterTypeRef="uint16_t" />
+			<Parameter name="settings->swrst_counter" parameterTypeRef="uint16_t" />
+			<Parameter name="settings->brownout_counter" parameterTypeRef="uint16_t" />
+			<Parameter name="status->power_safe" parameterTypeRef="uint8_t" />
+			<Parameter name="status->power_mon_fail" parameterTypeRef="uint8_t" />
+            <!-- CLCW 4 x 8 bits per VCID (TODO: map to special type) -->
+			<Parameter name="status->clcw->vcid0" parameterTypeRef="uint32_t" />
+			<Parameter name="status->clcw->vcid1" parameterTypeRef="uint32_t" />
+			<Parameter name="status->clcw->vcid2" parameterTypeRef="uint32_t" />
+			<Parameter name="status->clcw->vcid3" parameterTypeRef="uint32_t" />
+			<Parameter name="radio->tx_frames" parameterTypeRef="uint16_t" />
+			<Parameter name="radio->rx_frames" parameterTypeRef="uint16_t" />
+			<Parameter name="radio->rx_corrected_bits" parameterTypeRef="uint32_t" />
+			<Parameter name="radio->rssi" parameterTypeRef="int8_t" />
+			<Parameter name="radio->freq_tracking" parameterTypeRef="int16_t" />
+			<Parameter name="radio->agc" parameterTypeRef="int8_t" />
+			<Parameter name="radio->datarate_tracking" parameterTypeRef="int32_t" />
+			<Parameter name="radio->phase_tracking" parameterTypeRef="int16_t" />
+			<Parameter name="radio->rf_freq_tracking" parameterTypeRef="int32_t" />
+			<Parameter name="settings->trx_delay" parameterTypeRef="uint16_t" />
+		</ParameterSet>
+		<ContainerSet>
+			<SequenceContainer abstract="true" name="CCSDS_Frame">
+				<EntryList>
+					<ParameterRefEntry parameterRef="CCSDS_OSDLP_Transfer_Frame" />
+                </EntryList>
+			</SequenceContainer>
+			<SequenceContainer abstract="true" name="QUBIK_Packet">
+				<EntryList>
+					<ParameterRefEntry parameterRef="QUBIK_Packet_Length" />
+				</EntryList>
+				<BaseContainer containerRef="CCSDS_Frame">
+				</BaseContainer>
+			</SequenceContainer>
+			<SequenceContainer name="Regular_TM_Packet">
+				<EntryList>
+					<ParameterRefEntry parameterRef="power->current" />
+					<ParameterRefEntry parameterRef="power->voltage" />
+					<ParameterRefEntry parameterRef="power->temperature_die" />
+					<ParameterRefEntry parameterRef="power->temperature" />
+                    <ParameterRefEntry parameterRef="power->current_min"  />
+                    <ParameterRefEntry parameterRef="power->voltage_min"  />
+                    <ParameterRefEntry parameterRef="power->temperature_min" />
+                    <ParameterRefEntry parameterRef="power->current_max" />
+                    <ParameterRefEntry parameterRef="power->voltage_max" />
+                    <ParameterRefEntry parameterRef="power->temperature_max" />
+                    <ParameterRefEntry parameterRef="power->current_avg" />
+                    <ParameterRefEntry parameterRef="power->voltage_avg" />
+                    <ParameterRefEntry parameterRef="power->temperature_avg" />
+                    <ParameterRefEntry parameterRef="power->tte" />
+                    <ParameterRefEntry parameterRef="power->repcap" />
+                    <ParameterRefEntry parameterRef="power->fullrepcap" />
+                    <ParameterRefEntry parameterRef="power->soc" />
+                    <ParameterRefEntry parameterRef="ant->test_voltage" />
+                    <ParameterRefEntry parameterRef="ant->test_current" />
+                    <ParameterRefEntry parameterRef="ant->test_result" />
+                    <ParameterRefEntry parameterRef="ant->deploy_avg_voltage" />
+                    <ParameterRefEntry parameterRef="ant->deploy_avg_current" />
+                    <ParameterRefEntry parameterRef="ant->deploy_time" />
+                    <ParameterRefEntry parameterRef="ant->deploy_status" />
+                    <ParameterRefEntry parameterRef="ant->deploy_retry_count" />
+                    <ParameterRefEntry parameterRef="uptime" />
+                    <ParameterRefEntry parameterRef="power->temp_mcu" />
+                    <ParameterRefEntry parameterRef="power->rtc_vbat" />
+                    <ParameterRefEntry parameterRef="settings->first_deploy" />
+                    <ParameterRefEntry parameterRef="settings->ant_first_deploy" />
+                    <ParameterRefEntry parameterRef="ror" />
+                    <ParameterRefEntry parameterRef="radio->rx_frames_invalid" />
+                    <ParameterRefEntry parameterRef="settings->low_power_counter" />
+                    <ParameterRefEntry parameterRef="settings->iwdg_counter" />
+                    <ParameterRefEntry parameterRef="settings->swrst_counter" />
+                    <ParameterRefEntry parameterRef="settings->brownout_counter" />
+                    <ParameterRefEntry parameterRef="status->power_safe" />
+                    <ParameterRefEntry parameterRef="status->power_mon_fail" />
+                    <!-- CLCW 4 x 8 bits per VCID (TODO: map to special type) -->
+                    <ParameterRefEntry parameterRef="status->clcw->vcid0" />
+                    <ParameterRefEntry parameterRef="status->clcw->vcid1" />
+                    <ParameterRefEntry parameterRef="status->clcw->vcid2" />
+                    <ParameterRefEntry parameterRef="status->clcw->vcid3" />
+                    <ParameterRefEntry parameterRef="radio->tx_frames" />
+                    <ParameterRefEntry parameterRef="radio->rx_frames" />
+                    <ParameterRefEntry parameterRef="radio->rx_corrected_bits" />
+                    <ParameterRefEntry parameterRef="radio->rssi" />
+                    <ParameterRefEntry parameterRef="radio->freq_tracking" />
+                    <ParameterRefEntry parameterRef="radio->agc" />
+                    <ParameterRefEntry parameterRef="radio->datarate_tracking" />
+                    <ParameterRefEntry parameterRef="radio->phase_tracking" />
+                    <ParameterRefEntry parameterRef="radio->rf_freq_tracking" />
+                    <ParameterRefEntry parameterRef="settings->trx_delay" />
+				</EntryList>
+				<BaseContainer containerRef="QUBIK_Packet">
+					<RestrictionCriteria>
+						<ComparisonList>
+                        	<Comparison value="NotPresent" parameterRef="CCSDS_OSDLP_Transfer_Frame/CCSDS_OSDLP_TF_Primary_Header/TF_SecHdr_Flag" />
+							<Comparison value="1" parameterRef="CCSDS_OSDLP_Transfer_Frame/CCSDS_OSDLP_TF_Primary_Header/Virtual_Channel_ID" />
+						</ComparisonList>
+					</RestrictionCriteria>
+				</BaseContainer>
+			</SequenceContainer>
+		</ContainerSet>
+	</TelemetryMetaData>
+	<CommandMetaData>
+		<ArgumentTypeSet>
+			<IntegerArgumentType name="CCSDS_Version_Type" signed="false">
+				<UnitSet />
+				<IntegerDataEncoding sizeInBits="3" />
+			</IntegerArgumentType>
+			<BooleanArgumentType name="CCSDS_Type_Type" zeroStringValue="TM" oneStringValue="TC">
+				<UnitSet />
+				<IntegerDataEncoding sizeInBits="1" />
+			</BooleanArgumentType>
+			<BooleanArgumentType name="CCSDS_Sec_Hdr_Flag_Type" zeroStringValue="NotPresent" oneStringValue="Present">
+				<UnitSet />
+				<IntegerDataEncoding sizeInBits="1" />
+			</BooleanArgumentType>
+			<IntegerArgumentType name="CCSDS_APID_Type" signed="false">
+				<UnitSet />
+				<IntegerDataEncoding sizeInBits="11" />
+			</IntegerArgumentType>
+			<EnumeratedArgumentType name="CCSDS_Group_Flags_Type">
+				<UnitSet />
+				<IntegerDataEncoding sizeInBits="2" />
+				<EnumerationList>
+					<Enumeration value="0" label="Continuation" />
+					<Enumeration value="1" label="First" />
+					<Enumeration value="2" label="Last" />
+					<Enumeration value="3" label="Standalone" />
+				</EnumerationList>
+			</EnumeratedArgumentType>
+			<IntegerArgumentType name="Packet_ID_Type" signed="false">
+				<UnitSet />
+				<IntegerDataEncoding sizeInBits="16" />
+			</IntegerArgumentType>
+			<IntegerArgumentType name="Battery_Type" signed="false">
+				<UnitSet />
+				<IntegerDataEncoding encoding="unsigned" sizeInBits="16" />
+				<ValidRangeSet>
+					<ValidRange minInclusive="1" maxInclusive="3" />
+				</ValidRangeSet>
+			</IntegerArgumentType>
+		</ArgumentTypeSet>
+		<MetaCommandSet>
+			<MetaCommand name="CCSDSPacket" abstract="true">
+				<ArgumentList>
+					<Argument argumentTypeRef="CCSDS_Version_Type" name="CCSDS_Version" />
+					<Argument argumentTypeRef="CCSDS_Type_Type" name="CCSDS_Type" />
+					<Argument argumentTypeRef="CCSDS_Sec_Hdr_Flag_Type" name="CCSDS_Sec_Hdr_Flag" />
+					<Argument argumentTypeRef="CCSDS_APID_Type" name="CCSDS_APID" />
+					<Argument argumentTypeRef="CCSDS_Group_Flags_Type" name="CCSDS_Group_Flags" />
+				</ArgumentList>
+				<CommandContainer name="CCSDSPacket">
+					<EntryList>
+						<ArgumentRefEntry argumentRef="CCSDS_Version" />
+						<ArgumentRefEntry argumentRef="CCSDS_Type" />
+						<ArgumentRefEntry argumentRef="CCSDS_Sec_Hdr_Flag" />
+						<ArgumentRefEntry argumentRef="CCSDS_APID" />
+						<ArgumentRefEntry argumentRef="CCSDS_Group_Flags" />
+						<!-- Final value is set by post-processor after the command is submitted. -->
+						<FixedValueEntry name="CCSDS_Source_Sequence_Count" binaryValue="0000" sizeInBits="14" />
+						<!-- Final value is set by post-processor after the command is submitted. -->
+						<FixedValueEntry name="CCSDS_Packet_Length" binaryValue="0000" sizeInBits="16" />
+					</EntryList>
+				</CommandContainer>
+			</MetaCommand>
+			<MetaCommand name="MyProjectPacket" abstract="true">
+				<BaseMetaCommand metaCommandRef="CCSDSPacket">
+					<ArgumentAssignmentList>
+						<ArgumentAssignment argumentName="CCSDS_Version" argumentValue="0" />
+						<ArgumentAssignment argumentName="CCSDS_Type" argumentValue="TC" />
+						<ArgumentAssignment argumentName="CCSDS_Sec_Hdr_Flag" argumentValue="NotPresent" />
+						<ArgumentAssignment argumentName="CCSDS_APID" argumentValue="101" />
+						<ArgumentAssignment argumentName="CCSDS_Group_Flags" argumentValue="Standalone" />
+					</ArgumentAssignmentList>
+				</BaseMetaCommand>
+				<ArgumentList>
+					<Argument argumentTypeRef="Packet_ID_Type" name="Packet_ID" />
+				</ArgumentList>
+				<CommandContainer name="MyProjectPacket">
+					<EntryList>
+						<ArgumentRefEntry argumentRef="Packet_ID" />
+					</EntryList>
+					<BaseContainer containerRef="CCSDSPacket" />
+				</CommandContainer>
+			</MetaCommand>
+			<MetaCommand name="Reboot">
+				<BaseMetaCommand metaCommandRef="MyProjectPacket">
+					<ArgumentAssignmentList>
+						<ArgumentAssignment argumentName="Packet_ID" argumentValue="1" />
+					</ArgumentAssignmentList>
+				</BaseMetaCommand>
+				<CommandContainer name="Reboot">
+					<EntryList />
+					<BaseContainer containerRef="MyProjectPacket" />
+				</CommandContainer>
+				<DefaultSignificance consequenceLevel="vital" />
+			</MetaCommand>
+			<MetaCommand name="SwitchVoltageOn" shortDescription="Switches a battery on">
+				<BaseMetaCommand metaCommandRef="MyProjectPacket">
+					<ArgumentAssignmentList>
+						<ArgumentAssignment argumentName="Packet_ID" argumentValue="2" />
+					</ArgumentAssignmentList>
+				</BaseMetaCommand>
+				<ArgumentList>
+					<Argument argumentTypeRef="Battery_Type" name="Battery" shortDescription="Number of the battery" />
+				</ArgumentList>
+				<CommandContainer name="SwitchVoltageOn">
+					<EntryList>
+						<ArgumentRefEntry argumentRef="Battery" />
+					</EntryList>
+					<BaseContainer containerRef="MyProjectPacket" />
+				</CommandContainer>
+			</MetaCommand>
+			<MetaCommand name="SwitchVoltageOff" shortDescription="Switches a battery off">
+				<BaseMetaCommand metaCommandRef="MyProjectPacket">
+					<ArgumentAssignmentList>
+						<ArgumentAssignment argumentName="Packet_ID" argumentValue="3" />
+					</ArgumentAssignmentList>
+				</BaseMetaCommand>
+				<ArgumentList>
+					<Argument argumentTypeRef="Battery_Type" name="Battery" shortDescription="Number of the battery" />
+				</ArgumentList>
+				<CommandContainer name="SwitchVoltageOff">
+					<EntryList>
+						<ArgumentRefEntry argumentRef="Battery" />
+					</EntryList>
+					<BaseContainer containerRef="MyProjectPacket" />
+				</CommandContainer>
+			</MetaCommand>
+		</MetaCommandSet>
+	</CommandMetaData>
+</SpaceSystem>
