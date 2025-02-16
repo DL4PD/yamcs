@@ -25,18 +25,99 @@ services:
   - class: org.yamcs.timeline.TimelineService
 
 dataLinks:
-  - name: udp-in
-    class: org.yamcs.tctm.UdpTmDataLink
-    stream: tm_realtime
-    port: 10015
-    packetPreprocessorClassName: com.example.myproject.MyPacketPreprocessor
+  - name: UDP_FRAME_IN
+    class: org.yamcs.tctm.ccsds.UdpTmFrameLink
+    args:
+      port: 10017
+      rawFrameDecoder:
+      frameType: "TM"
+      spacecraftId: 0x0016
+      frameLength: 512
+      frameHeaderErrorControlPresent: false
+      insertZoneLength: 0
+      errorDetection: CRC16
+      clcwStream: clcw
+      goodFrameStream: good_frames
+      badFrameStream: bad_frames
+      virtualChannels:
+        - vcId: 0  # VCID_MANAGEMENT
+          ocfPresent: false
+          service: "VCA"
+          maxPacketLength: 2048
+          vcaHandlerClassName: org.yamcs.examples.ccsdsframes.SampleVcaHandler
+          packetPreprocessorClassName: org.yamcs.tctm.GenericPacketPreprocessor
+          packetPreprocessorArgs:
+          stream: "tm_mgmt"
+        - vcId: 1  # VCID_REG_TM
+          ocfPresent: false
+          service: "VCA"
+          maxPacketLength: 2048
+          stripEncapsulationHeader: true
+          packetPreprocessorClassName: org.yamcs.tctm.GenericPacketPreprocessor
+          packetPreprocessorArgs:
+          stream: "tm_reg_tm"
+        - vcId: 2  # VCID_REQ_TM
+          ocfPresent: false
+          service: "VCA"
+          maxPacketLength: 2048
+          packetPreprocessorClassName: org.yamcs.tctm.GenericPacketPreprocessor
+          stream: "tm_req_tm"
+        - vcId: 3  # VCID_DIGIPEATER
+          ocfPresent: false
+          service: "VCA"
+          maxPacketLength: 2048
+          packetPreprocessorClassName: org.yamcs.tctm.GenericPacketPreprocessor
+          stream: "tm_digipeater"
+        - vcId: 4  # VCID_SSDV
+          ocfPresent: false
+          service: "VCA"
+          maxPacketLength: 2048
+          packetPreprocessorClassName: org.yamcs.tctm.GenericPacketPreprocessor
+          stream: "tm_ssdv"
+        - vcId: 5  # VCID_IMU
+          ocfPresent: false
+          service: "VCA"
+          maxPacketLength: 2048
+          packetPreprocessorClassName: org.yamcs.tctm.GenericPacketPreprocessor
+          stream: "tm_imu"
 
-  - name: udp-out
-    class: org.yamcs.tctm.UdpTcDataLink
-    stream: tc_realtime
+  - name: UDP_FRAME_OUT
+    class: org.yamcs.tctm.ccsds.UdpTcFrameLink
     host: localhost
-    port: 10025
-    commandPostprocessorClassName: com.example.myproject.MyCommandPostprocessor
+    port: 10018
+    spacecraftId: 0x0016
+    maxFrameLength: 1024
+    cltuEncoding: #BCH
+    priorityScheme: FIFO
+    randomizeCltu: false
+    virtualChannels:
+        - vcId: 0
+          service: "PACKET"
+          mapId: -1
+          priority: 1
+          commandPostprocessorClassName: org.yamcs.tctm.GenericCommandPostprocessor
+          commandPostprocessorArgs:
+          stream: "tc_sim"
+          useCop1: true
+          clcwStream: "clcw"
+          initialClcwWait: 3600
+          cop1T1: 3
+          cop1TxLimit: 3
+          slidingWindowWidth: 15
+          bdAbsolutePriority: false
+
+#  - name: udp-in
+#    class: org.yamcs.tctm.UdpTmDataLink
+#    stream: tm_realtime
+#    port: 10015
+#    packetPreprocessorClassName: com.example.myproject.MyPacketPreprocessor
+#
+#  - name: udp-out
+#    class: org.yamcs.tctm.UdpTcDataLink
+#    stream: tc_realtime
+#    host: localhost
+#    port: 10025
+#    commandPostprocessorClassName: com.example.myproject.MyCommandPostprocessor
 
 mdb:
   # Configuration of the active loaders
